@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="demo1" />
+    <version value="6" />
+    <list>
+        <mapping class = "com.example.peipeng.myweather.City"></mapping>
+        <mapping class = "com.example.peipeng.myweather.gson.Content"></mapping>
+    </list>
+
+</litepal>
