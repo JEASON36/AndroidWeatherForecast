@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 List<City> cities = LitePal.findAll(City.class);
                 for (City city1:cities){
                     if(city1.getCity_code().equals(id1)){
-                        Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this,"success",Toast.LENGTH_SHORT).show();
                         Intent intent1 = new Intent(MainActivity.this,Weather.class);
                         intent1.putExtra("city_code",id1);
                         startActivity(intent1);

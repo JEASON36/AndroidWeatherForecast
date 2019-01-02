@@ -92,17 +92,29 @@ public class Weather extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("data",MODE_PRIVATE);
         String weatherString = prefs.getString("weather", null);
+        String weatherString1 = prefs.getString("weather1", null);
+        String weatherString2 = prefs.getString("weather2", null);
+
 //        Toast.makeText(Weather.this,"直接使用缓存"+weatherString,Toast.LENGTH_SHORT).show();
-        Content content1 = handleWeatherResponse(weatherString);
+        Content content = handleWeatherResponse(weatherString);
+        Content content1 = handleWeatherResponse(weatherString1);
+        Content content2 = handleWeatherResponse(weatherString2);
+
 //        Toast.makeText(Weather.this,"缓存的城市名称"+content1.cityInfo.city,Toast.LENGTH_SHORT).show();
 
 
-//这里出现问题，解析的结果没错，试试输出
-//         && content1.cityInfo.cityId == city_code
-        if (weatherString != null && content1.cityInfo.cityId.equals(city_code)) {
+//想要实现收藏功能的话，首先在weather中建立一个收藏按钮，且创建监听事件，点击之后，将该城市的City——code存储到数据库中，所有的数据类型建立为public，然后在Mainactivity中建立一个ListView
+        if (content.cityInfo.cityId.equals(city_code)) {
+            showWeatherInfo(content);
+            Toast.makeText(Weather.this,"直接使用缓存",Toast.LENGTH_SHORT).show();
+        } else if (content1.cityInfo.cityId.equals(city_code)){
             showWeatherInfo(content1);
             Toast.makeText(Weather.this,"直接使用缓存",Toast.LENGTH_SHORT).show();
-        } else {
+        }else if (content2.cityInfo.cityId.equals(city_code)){
+            showWeatherInfo(content2);
+            Toast.makeText(Weather.this,"直接使用缓存",Toast.LENGTH_SHORT).show();
+        }
+        else {
             sendRequestWithOkHttp();
         }
 
@@ -135,10 +147,20 @@ public class Weather extends AppCompatActivity {
 
                 if (content != null && "Success !".equals(content.message)) {
 //                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(Weather.this).edit();
-                    SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
-                    editor.putString("weather", Data1);
-                    editor.apply();
-//                    Toast.makeText(Weather.this, "存入缓存", Toast.LENGTH_SHORT).show();
+
+
+
+                    SharedPreferences prefs = getSharedPreferences("data",MODE_PRIVATE);
+                    String weatherString0 = prefs.getString("weather", null);
+                    String weatherString1 = prefs.getString("weather1", null);
+                    String weatherString2 = prefs.getString("weather2", null);
+
+                        SharedPreferences.Editor editor = getSharedPreferences("data",MODE_PRIVATE).edit();
+                        editor.putString("weather", Data1);//新的缓存存入
+                        editor.putString("weather1", weatherString0);
+                        editor.putString("weather2",weatherString1);
+                        editor.apply();
+
                     showWeatherInfo(content);
                 } else {
                     Toast.makeText(Weather.this, "获取天气信息失败", Toast.LENGTH_SHORT).show();
